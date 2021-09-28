@@ -2,10 +2,10 @@
 Cell.random_seed = 100
 Cell.start_alive_rate = 0.1
 
-$render_method = :render_cells_as_solids # The average FPS was 36.8235294117647.
-# $render_method = :render_cells_as_target_of_solids # The average FPS was 37.11111111111111.
-# $render_method = :render_cells_as_sprites # The average FPS was 35.44444444444444
-# $render_method = :render_cells_as_target_of_sprites #The average FPS was 35.27777777777778.
+$render_method = :render_cells_as_solids # The average FPS was 42.46666666666666.
+# $render_method = :render_cells_as_target_of_solids # The average FPS was 41.33333333333333
+# $render_method = :render_cells_as_sprites # The average FPS was 42.33333333333334
+# $render_method = :render_cells_as_target_of_sprites #The average FPS was 41.66666666666667.
 
 rend_solid_methods = [:render_cells_as_solids, :render_cells_as_target_of_solids]
 if rend_solid_methods.include?($render_method)

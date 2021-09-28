@@ -71,14 +71,16 @@ class Cell
     @was_alive
   end
 
-  BORN_COUNTS = [3].freeze
-  SURVIVE_COUNTS = [2, 3].freeze
-  MAX_NEIGHBOR_COUNT = [BORN_COUNTS, SURVIVE_COUNTS].flatten.max
+  MAX_NEIGHBORS = 3
 
   def compute_alive
     neighbor_count = 0
-    neighbors.each { |n| return false if n.was_alive? && (neighbor_count += 1) > MAX_NEIGHBOR_COUNT }
-    (was_alive? ? SURVIVE_COUNTS : BORN_COUNTS).include?(neighbor_count)
+    neighbors.each { |n| return false if n.was_alive? && (neighbor_count += 1) > MAX_NEIGHBORS }
+    if was_alive?
+      neighbor_count == 2 || neighbor_count == 3
+    else
+      neighbor_count == 3
+    end
   end
 
   SIZE = 7
