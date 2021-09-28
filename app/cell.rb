@@ -76,11 +76,7 @@ class Cell
   def compute_alive
     neighbor_count = 0
     neighbors.each { |n| return false if n.was_alive? && (neighbor_count += 1) > MAX_NEIGHBORS }
-    if was_alive?
-      neighbor_count == 2 || neighbor_count == 3
-    else
-      neighbor_count == 3
-    end
+    was_alive? && neighbor_count == 2 || neighbor_count == 3
   end
 
   SIZE = 7
