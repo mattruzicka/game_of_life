@@ -27,7 +27,7 @@ class Cell
     end
 
     def draw_override(ffi)
-      ffi.draw_sprite(@x + 150, @y, w, h, "sprites/black_square.png") if @alive
+      ffi.draw_sprite(@x, @y, @w, @h, "sprites/black_square.png") if @alive
       @was_alive = @alive
     end
   end
@@ -38,26 +38,29 @@ class Cell
     end
 
     def draw_override(ffi)
-      ffi.draw_solid(@x + 150, @y, w, h, r, g, b, a) if @alive
+      ffi.draw_solid(@x, @y, @w, @h, @r, @g, @b, @a) if @alive
       @was_alive = @alive
     end
   end
 
   include Solid
 
+  SIZE = 7
+  LEFT_MARGIN = 150
+
   def initialize(col, row)
     @col = col
     @row = row
-    @x = col * SIZE
+    @x = col * SIZE + LEFT_MARGIN
     @y = row * SIZE
+    @w = SIZE
+    @h = SIZE
+    @r = 0
+    @g = 0
+    @b = 0
+    @a = 255
     @was_alive = self.class.alive?
   end
-
-  attr_accessor :col,
-                :row,
-                :neighbors,
-                :x,
-                :y
 
   def assign_alive
     @alive = compute_alive
@@ -75,29 +78,8 @@ class Cell
 
   def compute_alive
     neighbor_count = 0
-    neighbors.each { |n| return false if n.was_alive? && (neighbor_count += 1) > MAX_NEIGHBORS }
+    @neighbors.each { |n| return false if n.was_alive? && (neighbor_count += 1) > MAX_NEIGHBORS }
     was_alive? && neighbor_count == 2 || neighbor_count == 3
-  end
-
-  SIZE = 7
-
-  def w
-    SIZE
-  end
-
-  def h
-    SIZE
-  end
-
-  def r
-    alive? ? 0 : 255
-  end
-
-  alias g r
-  alias b r
-
-  def a
-    alive? ? 255 : 0
   end
 
   def assign_neighbors(grid)
@@ -112,20 +94,19 @@ class Cell
   end
 
   def neighbor_coordinates
-    above_row = row + 1
-    below_row = row - 1
-    left_col = col - 1
-    right_col = col + 1
+    above_row = @row + 1
+    below_row = @row - 1
+    left_col = @col - 1
+    right_col = @col + 1
     [[[left_col, above_row], [-1, 0]],
-     [[col, above_row], [nil, 0]],
+     [[@col, above_row], [nil, 0]],
      [[right_col, above_row], [0, 0]],
-     [[left_col, row], [-1, nil]],
-     [[right_col, row], [0, nil]],
+     [[left_col, @row], [-1, nil]],
+     [[right_col, @row], [0, nil]],
      [[left_col, below_row], [-1, -1]],
-     [[col, below_row], [nil, -1]],
+     [[@col, below_row], [nil, -1]],
      [[right_col, below_row], [0, -1]]]
   end
-end
 
   def serialize
     {}
