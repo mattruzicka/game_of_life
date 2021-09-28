@@ -33,6 +33,18 @@ class World
     args.outputs.sprites << { x: 0, y: 0, w: 1280, h: 720, path: :world }
   end
 
+  def serialize
+    {}
+  end
+
+  def inspect
+    serialize.to_s
+  end
+
+  def to_s
+    serialize.to_s
+  end
+
   private
 
   def build_grid
