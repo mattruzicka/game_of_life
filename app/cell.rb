@@ -26,9 +26,10 @@ class Cell
       :sprite
     end
 
+    BLACK_SQUARE = 'sprites/black_square.png'.freeze
+
     def draw_override(ffi)
-      ffi.draw_sprite(@x, @y, @w, @h, "sprites/black_square.png") if @alive
-      @was_alive = @alive
+      ffi.draw_sprite(@x, @y, @w, @h, BLACK_SQUARE) if (@was_alive = @alive)
     end
   end
 
@@ -38,8 +39,7 @@ class Cell
     end
 
     def draw_override(ffi)
-      ffi.draw_solid(@x, @y, @w, @h, @r, @g, @b, @a) if @alive
-      @was_alive = @alive
+      ffi.draw_solid(@x, @y, @w, @h, @r, @g, @b, @a) if (@was_alive = @alive)
     end
   end
 
