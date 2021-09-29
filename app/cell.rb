@@ -21,6 +21,18 @@ class Cell
     end
   end
 
+  module StaticSprite
+    def primitive_marker
+      :sprite
+    end
+
+    BLACK_SQUARE = 'sprites/black_square.png'.freeze
+
+    def draw_override(ffi)
+      ffi.draw_sprite(@x, @y, @w, @h, BLACK_SQUARE) if (@was_alive = @alive)
+    end
+  end
+
   module Sprite
     def primitive_marker
       :sprite
