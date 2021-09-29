@@ -1,6 +1,6 @@
 class Cell
   class << self
-    def alive?
+    def start_alive?
       random.rand < start_alive_rate
     end
 
@@ -21,42 +21,6 @@ class Cell
     end
   end
 
-  module StaticSprite
-    def primitive_marker
-      :sprite
-    end
-
-    BLACK_SQUARE = 'sprites/black_square.png'.freeze
-
-    def draw_override(ffi)
-      ffi.draw_sprite(@x, @y, @w, @h, BLACK_SQUARE) if (@was_alive = @alive)
-    end
-  end
-
-  module Sprite
-    def primitive_marker
-      :sprite
-    end
-
-    BLACK_SQUARE = 'sprites/black_square.png'.freeze
-
-    def draw_override(ffi)
-      ffi.draw_sprite(@x, @y, @w, @h, BLACK_SQUARE) if (@was_alive = @alive)
-    end
-  end
-
-  module Solid
-    def primitive_marker
-      :solid
-    end
-
-    def draw_override(ffi)
-      ffi.draw_solid(@x, @y, @w, @h, @r, @g, @b, @a) if (@was_alive = @alive)
-    end
-  end
-
-  include Solid
-
   SIZE = 7
   LEFT_MARGIN = 150
 
@@ -71,7 +35,14 @@ class Cell
     @g = 0
     @b = 0
     @a = 255
-    @was_alive = self.class.alive?
+    @alive = self.class.start_alive?
+    @was_alive = @alive
+  end
+
+  BLACK_SQUARE = 'sprites/black_square.png'.freeze
+
+  def draw_override(ffi)
+    ffi.draw_sprite(@x, @y, @w, @h, BLACK_SQUARE) if (@was_alive = @alive)
   end
 
   def assign_alive
@@ -91,7 +62,7 @@ class Cell
   def compute_alive
     neighbor_count = 0
     @neighbors.each { |n| return false if n.was_alive? && (neighbor_count += 1) > MAX_NEIGHBORS }
-    was_alive? && neighbor_count == 2 || neighbor_count == 3
+    @was_alive && neighbor_count == 2 || neighbor_count == 3
   end
 
   def assign_neighbors(grid)
