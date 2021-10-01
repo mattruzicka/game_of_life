@@ -81,14 +81,14 @@ class Cell
     below_row = @row - 1
     left_col = @col - 1
     right_col = @col + 1
-    [[[left_col, above_row], [-1, 0]],
-     [[@col, above_row], [nil, 0]],
-     [[right_col, above_row], [0, 0]],
-     [[left_col, @row], [-1, nil]],
-     [[right_col, @row], [0, nil]],
-     [[left_col, below_row], [-1, -1]],
-     [[@col, below_row], [nil, -1]],
-     [[right_col, below_row], [0, -1]]]
+    [[[@row, left_col], [nil, -1]],
+     [[above_row, left_col], [0, -1]],
+     [[above_row, @col], [0, nil]],
+     [[above_row, right_col], [0, 0]],
+     [[@row, right_col], [nil, 0]],
+     [[below_row, right_col], [-1, 0]],
+     [[below_row, @col], [-1, nil]],
+     [[below_row, left_col], [-1, -1]]]
   end
 
   def serialize

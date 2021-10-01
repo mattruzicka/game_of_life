@@ -27,8 +27,8 @@ class World
   private
 
   def build_grid
-    Array.new(@cols) do |col|
-      Array.new(@rows) { |row| Cell.new(col, row) }
+    Array.new(@rows) do |row|
+      Array.new(@cols) { |col| Cell.new(col, row) }
     end
   end
 
