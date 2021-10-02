@@ -29,24 +29,27 @@ class Cell
     @row = row
     @x = col * SIZE + LEFT_MARGIN
     @y = row * SIZE
-    @w = SIZE
-    @h = SIZE
+    @size = SIZE
     @r = 0
     @g = 0
     @b = 0
     @a = 255
     @alive = self.class.start_alive?
-    @was_alive = @alive
   end
 
   BLACK_SQUARE = 'sprites/black_square.png'.freeze
 
   def draw_override(ffi)
-    ffi.draw_sprite(@x, @y, @w, @h, BLACK_SQUARE) if (@was_alive = @alive)
+    ffi.draw_sprite(@x, @y, @size, @size, BLACK_SQUARE) if (@was_alive = @alive)
   end
 
-  def assign_alive
+  def compute
     @alive = compute_alive
+  end
+
+  def reset
+    @alive = self.class.start_alive?
+    @was_alive = false
   end
 
   def alive?

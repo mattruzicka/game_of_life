@@ -8,8 +8,12 @@ class World
 
   attr_reader :cells
 
-  def assign_alive_cells
-    cells.each(&:assign_alive)
+  def compute_cells
+    cells.each(&:compute)
+  end
+
+  def reset
+    cells.each(&:reset)
   end
 
   def serialize
