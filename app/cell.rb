@@ -34,7 +34,7 @@ class Cell
     @g = 0
     @b = 0
     @a = 255
-    @alive = self.class.start_alive?
+    reset
   end
 
   BLACK_SQUARE = 'sprites/black_square.png'.freeze
