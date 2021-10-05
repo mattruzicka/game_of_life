@@ -11,5 +11,5 @@ def tick(args)
     world.compute_cells
   end
 
-  args.outputs.debug << args.gtk.framerate_diagnostics_primitives
+  # args.outputs.debug << args.gtk.framerate_diagnostics_primitives
 end
