@@ -5,7 +5,7 @@ def tick(args)
   if args.state.tick_count.zero?
     args.state.world = world
     args.outputs.static_sprites << world.cells
-  elsif args.inputs.keyboard.key_down.space
+  elsif args.inputs.keyboard.keys[:down].any? { |k| [:enter, :space].include?(k) }
     world.reset
   else
     world.compute_cells
