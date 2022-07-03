@@ -4,16 +4,14 @@ def boot(args)
   Cell.start_alive_rate = 0.11
   world = World.new
   args.state.world = world
-  args.outputs.static_sprites << world.cells
+  args.outputs.static_sprites << world
   @slow_fps_count = 0
 end
 
 def tick(args)
-  world = args.state.world
   if args.inputs.keyboard.keys[:down].any? { |k| [:enter, :space].include?(k) }
+    world = args.state.world
     world.reset
-  elsif args.state.tick_count.positive?
-    world.compute_cells
   end
 
   if args.gtk.current_framerate < 55 && args.state.tick_count > 100

@@ -2,18 +2,22 @@ class World
   def initialize
     @cols = 183
     @rows = 103
-    @grid = build_grid
-    @cells = build_cells
+    grid_a = build_grid
+    grid_b = deep_dup_grid(grid_a)
+    cells_a = assign_neighbor_cells(grid_a)
+    cells_b = assign_neighbor_cells(grid_b)
+    assign_swap_cells(cells_a, cells_b)
+    @cell_arrays = [cells_a, cells_b]
+    reset
   end
 
-  attr_reader :cells
-
-  def compute_cells
-    cells.each(&:compute)
+  def draw_override(ffi)
+    @cell_arrays.reverse!
+    @cell_arrays.first.each { |c| c.draw(ffi) }
   end
 
   def reset
-    cells.each(&:reset)
+    @cell_arrays.last.each(&:reset)
   end
 
   def serialize
@@ -36,10 +40,24 @@ class World
     end
   end
 
-  def build_cells
-    @grid.flatten.map! do |cell|
-      cell.assign_neighbors(@grid)
+  def deep_dup_grid(grid)
+    Array.new(@rows) do |row|
+      Array.new(@cols) { |col| grid[row][col].dup }
+    end
+  end
+
+  def assign_neighbor_cells(grid)
+    grid.flatten.map! do |cell|
+      cell.assign_neighbors(grid)
       cell
+    end
+  end
+
+  def assign_swap_cells(cells_a, cells_b)
+    cells_a.each_with_index do |cell_a, index|
+      cell_b = cells_b[index]
+      cell_a.swap_cell = cell_b
+      cell_b.swap_cell = cell_a
     end
   end
 end

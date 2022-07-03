@@ -28,42 +28,47 @@ class Cell
     @row = row
     @x = col * SIZE
     @y = row * SIZE
-    reset
   end
+
+  attr_writer :swap_cell
+
+  attr_accessor :alive
 
   BLACK_SQUARE = 'sprites/black_square.png'.freeze
 
-  def draw_override(ffi)
-    ffi.draw_sprite(@x, @y, SIZE, SIZE, BLACK_SQUARE) if (@was_alive = @alive)
-  end
-
-  def compute
-    @alive = compute_alive
+  def draw(ffi)
+    ffi.draw_sprite(@x, @y, SIZE, SIZE, BLACK_SQUARE) if @alive
+    @swap_cell.alive = compute_alive
   end
 
   def reset
-    @alive = self.class.start_alive?
-    @was_alive = false
+    self.alive = self.class.start_alive?
   end
 
-  def alive?
-    @alive
+  def assign_neighbors(grid)
+    @neighbors = find_neighbors(grid)
   end
 
-  def was_alive?
-    @was_alive
+  def serialize
+    {}
   end
+
+  def inspect
+    serialize.to_s
+  end
+
+  def to_s
+    serialize.to_s
+  end
+
+  private
 
   MAX_NEIGHBORS = 3
 
   def compute_alive
     neighbor_count = 0
-    @neighbors.each { |n| return false if n.was_alive? && (neighbor_count += 1) > MAX_NEIGHBORS }
-    @was_alive && neighbor_count == 2 || neighbor_count == 3
-  end
-
-  def assign_neighbors(grid)
-    @neighbors = find_neighbors(grid)
+    @neighbors.each { |n| return false if n.alive && (neighbor_count += 1) > MAX_NEIGHBORS }
+    @alive && neighbor_count == 2 || neighbor_count == 3
   end
 
   def find_neighbors(grid)
@@ -86,17 +91,5 @@ class Cell
      [[below_row, right_col], [-1, 0]],
      [[below_row, @col], [-1, nil]],
      [[below_row, left_col], [-1, -1]]]
-  end
-
-  def serialize
-    {}
-  end
-
-  def inspect
-    serialize.to_s
-  end
-
-  def to_s
-    serialize.to_s
   end
 end
