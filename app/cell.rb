@@ -28,18 +28,13 @@ class Cell
     @row = row
     @x = col * SIZE
     @y = row * SIZE
-    @size = SIZE
-    @r = 0
-    @g = 0
-    @b = 0
-    @a = 255
     reset
   end
 
   BLACK_SQUARE = 'sprites/black_square.png'.freeze
 
   def draw_override(ffi)
-    ffi.draw_sprite(@x, @y, @size, @size, BLACK_SQUARE) if (@was_alive = @alive)
+    ffi.draw_sprite(@x, @y, SIZE, SIZE, BLACK_SQUARE) if (@was_alive = @alive)
   end
 
   def compute
