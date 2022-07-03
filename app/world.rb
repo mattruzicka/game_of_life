@@ -1,7 +1,7 @@
 class World
   def initialize
-    @cols = 140
-    @rows = 80
+    @cols = 183
+    @rows = 103
     @grid = build_grid
     @cells = build_cells
   end

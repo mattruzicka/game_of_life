@@ -22,14 +22,12 @@ class Cell
   end
 
   SIZE = 7
-  LEFT_MARGIN = 150
-  BOTTOM_MARGIN = 80
 
   def initialize(col, row)
     @col = col
     @row = row
-    @x = col * SIZE + LEFT_MARGIN
-    @y = row * SIZE + BOTTOM_MARGIN
+    @x = col * SIZE
+    @y = row * SIZE
     @size = SIZE
     @r = 0
     @g = 0
